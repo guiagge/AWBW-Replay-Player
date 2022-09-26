@@ -148,7 +148,6 @@ namespace AWBWApp.Game.API.Replay.Actions
 
             if (IncomeChanges != null)
             {
-                controller.Map.soundCaptured.Play();
                 originalIncomes = new Dictionary<long, int>();
 
                 foreach (var incomeChange in IncomeChanges)
@@ -156,7 +155,7 @@ namespace AWBWApp.Game.API.Replay.Actions
                     originalIncomes.Add(incomeChange.Key, context.PropertyValuesForPlayers[incomeChange.Key]);
                     context.PropertyValuesForPlayers[incomeChange.Key] = incomeChange.Value;
                 }
-            } else controller.Map.soundCapturing.Play();
+            }
 
             if (Building.TerrainID != null)
             {
@@ -187,7 +186,8 @@ namespace AWBWApp.Game.API.Replay.Actions
                 {
                     var anim = controller.Map.PlaySelectionAnimation(capturingUnit);
                     yield return ReplayWait.WaitForTransformable(anim);
-                }
+                    controller.Map.soundCaptured.Play();
+                } else controller.Map.soundCapturing.Play();
 
                 if (!actionHidden)
                     capturingUnit.CanMove.Value = false;

@@ -24,6 +24,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Primitives;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Logging;
+using osu.Framework.Screens;
 using osuTK;
 using osuTK.Graphics;
 
@@ -1061,11 +1062,11 @@ namespace AWBWApp.Game.Game.Logic
             public PowerAction Power;
     }
 
-        /*public override bool OnExiting(ScreenExitEvent e)
+        public override bool OnExiting(ScreenExitEvent e)
             {
                 Map.stopAllMusic();
                 this.FadeOut(125, Easing.Out);
                 return base.OnExiting(e);
-            }*/
+            }
         }
 }
