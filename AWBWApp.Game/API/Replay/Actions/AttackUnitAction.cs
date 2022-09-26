@@ -304,6 +304,7 @@ namespace AWBWApp.Game.API.Replay.Actions
             }
 
             //Perform Attack vs Defender
+            controller.Map.playAttackSound(attackerUnit.UnitData.Name, defenderUnit.UnitData.MovementType);
 
             EffectAnimation reticule;
 
@@ -321,8 +322,10 @@ namespace AWBWApp.Game.API.Replay.Actions
             if (defenderUnit.HealthPoints.Value <= 0 || !defenderCounters)
             {
                 attackerUnit.UpdateUnit(attackerStats);
-                if (defenderUnit.HealthPoints.Value <= 0)
+                if (defenderUnit.HealthPoints.Value <= 0) {
                     controller.Map.DeleteUnit(defenderUnit.UnitID, true);
+                    controller.Map.soundExplosion.Play();
+                } else controller.Map.playAttackSound(defenderUnit.UnitData.Name, attackerUnit.UnitData.MovementType);
                 controller.Players[attackerUnit.OwnerID!.Value].UnitValue.Value -= attackerValue;
                 afterAttackChanges(controller);
 
@@ -336,6 +339,7 @@ namespace AWBWApp.Game.API.Replay.Actions
             }
 
             //Perform Attack vs Attacker
+            if (defenderCounters) controller.Map.soundMachineGun.Play();
             reticule = PlayAttackAnimation(controller, defenderUnit.MapPosition, attackerUnit.MapPosition, defenderUnit, true);
             yield return ReplayWait.WaitForTransformable(reticule);
 

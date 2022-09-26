@@ -121,6 +121,7 @@ namespace AWBWApp.Game.API.Replay.Actions
             var joinedUnit = controller.Map.GetDrawableUnit(JoinedUnit.ID);
 
             controller.ActivePlayer.UnitValue.Value += valueChange;
+            if (fundsChange > 0) controller.Map.soundCash.Play();
             controller.Stats.CurrentTurnStatsReadout[originalJoinedUnit.PlayerID!.Value].RegisterUnitStats(UnitStatType.JoinUnit | UnitStatType.UnitCountChanged, originalJoiningUnit.UnitName, originalJoiningUnit.PlayerID!.Value, Math.Max(-valueChange, 0));
 
             joinedUnit.UpdateUnit(JoinedUnit);

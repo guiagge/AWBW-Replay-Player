@@ -219,10 +219,36 @@ namespace AWBWApp.Game.Game.Units
 
             bool fogActive(UnitPosition position) => controller.ShouldPlayerActionBeHidden(new Vector2I(position.X, position.Y));
 
+            switch(this.UnitData.Name) {
+                case "Recon": controller.Map.soundMoveCar.Play(); break;
+                case "APC": controller.Map.soundMoveTank.Play(); break;
+                case "Artillery": controller.Map.soundMoveTank.Play(); break;
+                case "Tank": controller.Map.soundMoveTank.Play(); break;
+                case "Anti-Air": controller.Map.soundMoveTank.Play(); break;
+                case "Missile": controller.Map.soundMoveCar.Play(); break;
+                case "Rocket": controller.Map.soundMoveCar.Play(); break;
+                case "Md.Tank": controller.Map.soundMoveTank.Play(); break;
+                case "Neotank": controller.Map.soundMoveTank.Play(); break;
+                case "Mega Tank": controller.Map.soundMoveTank.Play(); break;
+                case "T-Copter": controller.Map.soundMoveHeli.Play(); break;
+                case "B-Copter": controller.Map.soundMoveHeli.Play(); break;
+                case "Fighter": controller.Map.soundMoveJet.Play(); break;
+                case "Bomber": controller.Map.soundMoveJet.Play(); break;
+                case "Black Bomb": controller.Map.soundMoveJet.Play(); break;
+                case "Stealth": controller.Map.soundMoveJet.Play(); break;
+                case "Black Boat": controller.Map.soundMoveSea.Play(); break;
+                case "Lander": controller.Map.soundMoveSea.Play(); break;
+                case "Sub": controller.Map.soundMoveSub.Play(); break;
+                case "Cruiser": controller.Map.soundMoveSea.Play(); break;
+                case "Battleship": controller.Map.soundMoveSea.Play(); break;
+                case "Piperunner": controller.Map.soundMovePipe.Play(); break;
+                default: if (path.Count > 2) controller.Map.soundMoveMan.Play(); break;
+            }
+
             if (path.Count == 2)
             {
+                if (this.UnitData.Name == "Infantry" || this.UnitData.Name == "Mech") controller.Map.soundStep.Play();
                 //Only moving 1 tile
-
                 var movementDirection = getMovementDirection(path[0], path[1]);
                 transformSequence.Then().TransformBindableTo(FogOfWarActive, fogActive(path[1])).TransformBindableTo(movementState, movementDirection)
                                  .MoveTo(getRealPositionFromMapTiles(new Vector2I(path[1].X, path[1].Y)), 400, Easing.InOutQuad);

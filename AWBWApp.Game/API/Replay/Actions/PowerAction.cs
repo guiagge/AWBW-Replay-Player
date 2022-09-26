@@ -490,10 +490,18 @@ namespace AWBWApp.Game.API.Replay.Actions
         public IEnumerable<ReplayWait> PerformAction(ReplayController controller)
         {
             Logger.Log("Performing Power Action.");
-            if (IsSuperPower)
+            if (IsSuperPower) {
+                controller.Map.stopAllMusic();
+                controller.Map.soundUseSuper.Play();
+                controller.Map.trackSuper.Start();
                 controller.Stats.CurrentTurnStatsReadout[controller.ActivePlayer.ID].SuperPowersUsed++;
-            else
+            }
+            else {
+                controller.Map.stopAllMusic();
+                controller.Map.soundUsePower.Play();
+                controller.Map.trackPower.Start();
                 controller.Stats.CurrentTurnStatsReadout[controller.ActivePlayer.ID].PowersUsed++;
+            }
 
             var powerAnimation = new PowerDisplay(CombatOfficerName, PowerName, IsSuperPower);
             controller.AddGenericActionAnimation(powerAnimation);

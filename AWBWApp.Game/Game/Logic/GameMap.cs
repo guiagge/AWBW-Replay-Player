@@ -15,6 +15,8 @@ using AWBWApp.Game.UI.Components;
 using AWBWApp.Game.UI.Replay;
 using NUnit.Framework;
 using osu.Framework.Allocation;
+using osu.Framework.Audio.Sample;
+using osu.Framework.Audio.Track;
 using osu.Framework.Bindables;
 using osu.Framework.Development;
 using osu.Framework.Graphics;
@@ -81,6 +83,14 @@ namespace AWBWApp.Game.Game.Logic
         private bool hasLoadedMap = false;
         private bool hasShownMapOutdatedWarning;
 
+        public Sample soundBomb, soundCannon, soundCaptured, soundCapturing, soundCash, soundComplete, soundExplosion,
+            soundMoveCar, soundMoveHeli, soundMoveMan, soundMoveJet, soundMovePipe, soundMoveSea, soundMoveSub,
+            soundMoveTank, soundStep, soundMachineGun, soundMissile, soundPower, soundSuperPower, soundUsePower,
+            soundUseSuper, soundTrap, soundRocket, soundSubMissile;
+
+        public Track trackAdder, trackFlak, trackGrimm, trackJake, trackJess, trackJugger, trackKoal, trackSami,
+            trackPower, trackSuper, trackVictory;
+
         [Resolved]
         private AWBWAppUserInputManager inputManager { get; set; }
 
@@ -132,13 +142,60 @@ namespace AWBWApp.Game.Game.Logic
         public void ScheduleSetToLoading() => Schedule(setToLoading);
 
         [BackgroundDependencyLoader]
-        private void load(AWBWConfigManager settings)
+        private void load(AWBWConfigManager settings, ISampleStore samples, ITrackStore tracks)
         {
             revealUnknownInformation = settings.GetBindable<bool>(AWBWSetting.ReplayOnlyShownKnownInfo);
             revealUnknownInformation.BindValueChanged(x => UpdateDiscoveredBuildings());
             showGridlines = settings.GetBindable<bool>(AWBWSetting.ReplayShowGridOverMap);
             showGridlines.BindValueChanged(x => grid.FadeTo(x.NewValue ? 1 : 0, 400, Easing.OutQuint), true);
             showTileCursor = settings.GetBindable<bool>(AWBWSetting.ShowTileCursor);
+            // Loads Sound Effects
+            soundBomb = samples.Get("Bomb");
+            soundCannon = samples.Get("Cannon");
+            soundCaptured = samples.Get("Captured");
+            soundCapturing = samples.Get("Capturing");
+            soundCash = samples.Get("Cash");
+            soundComplete = samples.Get("Complete");
+            soundExplosion = samples.Get("Explosion");
+            soundMachineGun = samples.Get("MachineGun");
+            soundMissile = samples.Get("Missile");
+            soundMoveCar = samples.Get("MoveCar");
+            soundMoveHeli = samples.Get("MoveHeli");
+            soundMoveMan = samples.Get("MoveMan");
+            soundMoveJet = samples.Get("MoveJet");
+            soundMovePipe = samples.Get("MovePipe");
+            soundMoveSea = samples.Get("MoveSea");
+            soundMoveSub = samples.Get("MoveSub");
+            soundMoveTank = samples.Get("MoveTank");
+            soundPower = samples.Get("Power");
+            soundRocket = samples.Get("Rocket");
+            soundStep = samples.Get("Step");
+            soundSubMissile = samples.Get("SubMissile");
+            soundSuperPower = samples.Get("SuperPower");
+            soundTrap = samples.Get("Trap");
+            soundUsePower = samples.Get("UsePower");
+            soundUseSuper = samples.Get("UseSuper");
+            // Loads Soundtrack
+            trackAdder = tracks.Get("Adder.ogg");
+            trackFlak = tracks.Get("Flak.ogg");
+            trackGrimm = tracks.Get("Grimm.ogg");
+            trackJake = tracks.Get("Jake.ogg");
+            trackJess = tracks.Get("Jess.ogg");
+            trackJugger = tracks.Get("Jugger.ogg");
+            trackKoal = tracks.Get("Koal.ogg");
+            trackSami = tracks.Get("Sami.ogg");
+            trackPower = tracks.Get("Power.ogg");
+            trackSuper = tracks.Get("SuperPower.ogg");
+            trackVictory = tracks.Get("Victory.ogg");
+            // Loops CO songs
+            trackAdder.Looping = true;
+            trackFlak.Looping = true;
+            trackGrimm.Looping = true;
+            trackJake.Looping = true;
+            trackJess.Looping = true;
+            trackJugger.Looping = true;
+            trackKoal.Looping = true;
+            trackSami.Looping = true;
         }
 
         private void setToLoading()
@@ -1088,5 +1145,52 @@ namespace AWBWApp.Game.Game.Logic
         private long? getPlayerIDFromCountryID(int countryID) => replayController.Players.FirstOrDefault(x => x.Value.OriginalCountryID == countryID).Value?.ID;
 
         public UnitData GetUnitDataForUnitName(string unitName) => unitStorage.GetUnitByCode(unitName);
+
+        public void stopAllMusic() {
+            trackAdder.Seek(0);
+            trackAdder.Seek(0);
+            trackFlak.Seek(0);
+            trackGrimm.Seek(0);
+            trackJake.Seek(0);
+            trackJess.Seek(0);
+            trackJugger.Seek(0);
+            trackKoal.Seek(0);
+            trackSami.Seek(0);
+            trackPower.Seek(0);
+            trackSuper.Seek(0);
+            trackVictory.Seek(0);
+
+            trackAdder.Stop();
+            trackAdder.Stop();
+            trackFlak.Stop();
+            trackGrimm.Stop();
+            trackJake.Stop();
+            trackJess.Stop();
+            trackJugger.Stop();
+            trackKoal.Stop();
+            trackSami.Stop();
+            trackPower.Stop();
+            trackSuper.Stop();
+            trackVictory.Stop();
+        }
+
+        public void playAttackSound(string attackerUnit, MovementType defenderType) {
+            if (attackerUnit == "Bomber") soundBomb.Play(); else 
+            if (attackerUnit == "Sub") soundSubMissile.Play(); else 
+            if (attackerUnit == "Rocket" || attackerUnit == "Missile") 
+                soundRocket.Play(); else 
+            if (attackerUnit == "Artillery" || attackerUnit == "Battleship") 
+                soundRocket.Play(); else 
+            if (attackerUnit == "Fighter" || (attackerUnit == "B-Copter" && 
+                (defenderType == MovementType.Tread || defenderType == MovementType.Tire || 
+                defenderType == MovementType.Lander || defenderType == MovementType.Sea))) 
+                soundMissile.Play(); else 
+            if (((attackerUnit == "Tank" || attackerUnit == "Md. Tank" || 
+                attackerUnit == "Neotank" || attackerUnit == "Mega Tank") && 
+                (defenderType == MovementType.Tread || defenderType == MovementType.Tire || 
+                defenderType == MovementType.Lander)) || (attackerUnit == "Cruiser" && 
+                defenderType == MovementType.Sea )) soundCannon.Play(); else 
+            soundMachineGun.Play();
+        }
     }
 }

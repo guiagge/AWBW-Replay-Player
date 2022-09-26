@@ -87,6 +87,7 @@ namespace AWBWApp.Game.API.Replay.Actions
 
             var unit = controller.Map.AddUnit(NewUnit);
             unit.CanMove.Value = false;
+            controller.Map.soundCash.Play();
 
             if (controller.Map.TryGetDrawableBuilding(unit.MapPosition, out DrawableBuilding building))
                 building.HasDoneAction.Value = true;

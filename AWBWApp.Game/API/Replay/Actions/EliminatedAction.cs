@@ -223,6 +223,9 @@ namespace AWBWApp.Game.API.Replay.Actions
         public IEnumerable<ReplayWait> PerformAction(ReplayController controller)
         {
             Logger.Log("Performing Elimination Action.");
+            controller.Map.soundComplete.Play();
+            controller.Map.stopAllMusic();
+            controller.Map.trackVictory.Start();
 
             var powerAnimation = new EliminationPopupDrawable(controller.Players[EliminatedPlayerID], EliminationMessage, Resigned);
             controller.AddGenericActionAnimation(powerAnimation);

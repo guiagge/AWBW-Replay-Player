@@ -1059,6 +1059,13 @@ namespace AWBWApp.Game.Game.Logic
             public int ActionStart;
 
             public PowerAction Power;
-        }
     }
+
+        /*public override bool OnExiting(ScreenExitEvent e)
+            {
+                Map.stopAllMusic();
+                this.FadeOut(125, Easing.Out);
+                return base.OnExiting(e);
+            }*/
+        }
 }

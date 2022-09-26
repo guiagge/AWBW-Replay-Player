@@ -136,6 +136,7 @@ namespace AWBWApp.Game.API.Replay.Actions
                       .ScaleTo(1, 250, Easing.OutQuint)
                       .Delay(400).ScaleTo(new Vector2(0, 1), 150, Easing.InQuart)
                       .Delay(125).FadeOut());
+                      controller.Map.soundCash.Play();
         }
 
         public void UndoAction(ReplayController controller)

@@ -150,8 +150,10 @@ namespace AWBWApp.Game.API.Replay.Actions
             if (Discovered != null)
                 controller.Map.RegisterDiscovery(Discovered);
 
-            if (Trapped)
+            if (Trapped) {
                 controller.Map.PlayEffect("Effects/TrapMarker", 650, Unit.Position.Value, 0, x => x.ScaleTo(new Vector2(1, 0)).ScaleTo(new Vector2(1, 1), 250, Easing.OutBounce));
+                controller.Map.soundTrap.Play();
+            }
         }
 
         private void renderPath(UnitPosition[] path, ReplayController controller)
