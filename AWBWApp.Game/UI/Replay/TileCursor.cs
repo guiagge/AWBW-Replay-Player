@@ -55,7 +55,7 @@ namespace AWBWApp.Game.UI.Replay
 
         private void moveToPosition(Vector2I position)
         {
-            this.MoveTo(new Vector2(position.X * DrawableTile.BASE_SIZE.X + 8, position.Y * DrawableTile.BASE_SIZE.Y + 24), 125, Easing.OutQuint);
+            this.MoveTo(new Vector2(position.X * DrawableTile.BASE_SIZE.X + 16, position.Y * DrawableTile.BASE_SIZE.Y + 48), 125, Easing.OutQuint);
         }
     }
 }

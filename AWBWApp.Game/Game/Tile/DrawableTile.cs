@@ -15,8 +15,8 @@ namespace AWBWApp.Game.Game.Tile
 {
     public class DrawableTile : CompositeDrawable
     {
-        public static readonly Vector2I BASE_SIZE = new Vector2I(16);
-        public static readonly Vector2I HALF_BASE_SIZE = new Vector2I(8);
+        public static readonly Vector2I BASE_SIZE = new Vector2I(32);
+        public static readonly Vector2I HALF_BASE_SIZE = new Vector2I(16);
         public static readonly Colour4 FOG_COLOUR = new Colour4(150, 150, 150, 255);
 
         public BindableBool FogOfWarActive = new BindableBool();

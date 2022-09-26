@@ -24,7 +24,7 @@ namespace AWBWApp.Game.Game.Units
 {
     public class DrawableUnit : CompositeDrawable, IHasMapPosition
     {
-        public static readonly Vector2I BASE_SIZE = new Vector2I(16);
+        public static readonly Vector2I BASE_SIZE = new Vector2I(32);
         public static readonly Colour4 FOG_COLOUR = new Colour4(150, 150, 150, 255);
 
         public readonly UnitData UnitData;

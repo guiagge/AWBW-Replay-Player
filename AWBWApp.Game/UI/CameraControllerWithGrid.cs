@@ -85,7 +85,7 @@ namespace AWBWApp.Game.UI
 
             contentSize *= newScale;
 
-            var offset = (drawSize - contentSize) * 0.5f;
+            var offset = (drawSize - contentSize) * 1f;
 
             content.Scale = new Vector2(newScale);
 
