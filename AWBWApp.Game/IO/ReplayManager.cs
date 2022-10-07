@@ -101,7 +101,11 @@ namespace AWBWApp.Game.IO
                 var fileName = Path.GetFileNameWithoutExtension(file);
                 var extension = Path.GetExtension(file);
 
-                if (extension != ".zip" || !int.TryParse(fileName, out int replayNumber))
+                //Files are either .zip, .awbw or blank extensions
+                if (extension != ".zip" && extension != ".awbw" && extension != string.Empty)
+                    continue;
+
+                if (!int.TryParse(fileName, out int replayNumber))
                     continue;
 
                 if (!knownReplays.TryGetValue(replayNumber, out var replayInfo))
@@ -147,6 +151,7 @@ namespace AWBWApp.Game.IO
             });
 
             saveReplays();
+            saveUsernames();
         }
 
         private async Task checkForUsernamesAndGetIfMissing(ReplayInfo info, bool triggerChanged)
@@ -219,6 +224,7 @@ namespace AWBWApp.Game.IO
             if (savePlayers)
             {
                 saveReplays();
+                saveUsernames();
 
                 if (triggerChanged)
                     ReplayChanged?.Invoke(info);
@@ -231,6 +237,7 @@ namespace AWBWApp.Game.IO
 
             knownReplays[data.ReplayInfo.ID] = data.ReplayInfo;
             saveReplays();
+            saveUsernames();
 
             if (containedAlready)
                 ReplayChanged?.Invoke(data.ReplayInfo);
@@ -251,7 +258,10 @@ namespace AWBWApp.Game.IO
                         sw.Write(contents);
                 }
             }
+        }
 
+        private void saveUsernames()
+        {
             lock (usernameStorageLock)
             {
                 var contents = JsonConvert.SerializeObject(playerNames, Formatting.Indented);
@@ -506,6 +516,27 @@ namespace AWBWApp.Game.IO
             knownReplays.Remove(replayInfo.ID);
             underlyingStorage.Delete($"{replayInfo.ID}.zip");
             ReplayRemoved?.Invoke(replayInfo);
+        }
+
+        public void UpdateUsername(long playerID, string newUsername)
+        {
+            playerNames[playerID] = newUsername;
+
+            foreach (var replay in knownReplays)
+            {
+                foreach (var player in replay.Value.Players)
+                {
+                    if (player.Value.UserId != playerID)
+                        continue;
+
+                    player.Value.Username = newUsername;
+                    ReplayChanged?.Invoke(replay.Value);
+                    break;
+                }
+            }
+
+            saveReplays();
+            saveUsernames();
         }
 
         #region Disposable
