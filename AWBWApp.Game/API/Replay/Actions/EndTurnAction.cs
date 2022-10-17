@@ -218,27 +218,8 @@ namespace AWBWApp.Game.API.Replay.Actions
 
             var endTurnPopup = new EndTurnPopupDrawable(player, NextDay);
             controller.AddGenericActionAnimation(endTurnPopup);
-            
-            switch(player.ActiveCO.Value.CO.Name) {
-                case "Adder": if (!controller.Map.trackAdder.IsRunning) controller.Map.stopAllMusic();
-                    controller.Map.trackAdder.Start(); break;
-                case "Flak": if (!controller.Map.trackFlak.IsRunning) controller.Map.stopAllMusic();
-                    controller.Map.trackFlak.Start(); break;
-                case "Grimm": if (!controller.Map.trackGrimm.IsRunning) controller.Map.stopAllMusic();
-                    controller.Map.trackGrimm.Start(); break;
-                case "Jake": if (!controller.Map.trackJake.IsRunning) controller.Map.stopAllMusic();
-                    controller.Map.trackJake.Start(); break;
-                case "Jess": if (!controller.Map.trackJess.IsRunning) controller.Map.stopAllMusic();
-                    controller.Map.trackJess.Start(); break;
-                case "Jugger": if (!controller.Map.trackJugger.IsRunning) controller.Map.stopAllMusic();
-                    controller.Map.trackJugger.Start(); break;
-                case "Koal": if (!controller.Map.trackKoal.IsRunning) controller.Map.stopAllMusic();
-                    controller.Map.trackKoal.Start(); break;
-                case "Sami": if (!controller.Map.trackSami.IsRunning) controller.Map.stopAllMusic();
-                    controller.Map.trackSami.Start(); break;
-                default: if (!controller.Map.trackSami.IsRunning) controller.Map.stopAllMusic();
-                    controller.Map.trackSami.Start(); break;
-            }
+
+            controller.Map.playMusic(player.ActiveCO.Value.CO.Name);
 
             yield return ReplayWait.WaitForTransformable(endTurnPopup);
 

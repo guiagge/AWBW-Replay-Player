@@ -88,8 +88,10 @@ namespace AWBWApp.Game.Game.Logic
             soundMoveTank, soundStep, soundMachineGun, soundMissile, soundPower, soundSuperPower, soundUsePower,
             soundUseSuper, soundTrap, soundRocket, soundSubMissile;
 
-        public Track trackAdder, trackFlak, trackGrimm, trackJake, trackJess, trackJugger, trackKoal, trackSami,
-            trackPower, trackSuper, trackVictory;
+        public Track trackAdder, trackAndy, trackColin, trackDrake, trackEagle, trackFlak, trackGrimm, trackGrit, 
+            trackHachi, trackHawke, trackJake, trackJavier, trackJess, trackJugger, trackKanbei, trackKindle, trackKoal, 
+            trackLash, trackMax, trackNell, trackOlaf, trackPower, trackRachel, trackSami, trackSasha, trackSensei, 
+            trackSonja, trackSuperPower, trackVictory, trackVonBolt;
 
         [Resolved]
         private AWBWAppUserInputManager inputManager { get; set; }
@@ -175,27 +177,67 @@ namespace AWBWApp.Game.Game.Logic
             soundTrap = samples.Get("Trap");
             soundUsePower = samples.Get("UsePower");
             soundUseSuper = samples.Get("UseSuper");
+            samples.Volume.Value = 0.2;
             // Loads Soundtrack
             trackAdder = tracks.Get("Adder.ogg");
+            trackAndy = tracks.Get("Andy.ogg");
+            trackColin = tracks.Get("Colin.ogg");
+            trackDrake = tracks.Get("Drake.ogg");
+            trackEagle = tracks.Get("Eagle.ogg");
             trackFlak = tracks.Get("Flak.ogg");
             trackGrimm = tracks.Get("Grimm.ogg");
+            trackGrit = tracks.Get("Grit.ogg");
+            trackHachi = tracks.Get("Hachi.ogg");
+            trackHawke = tracks.Get("Hawke.ogg");
             trackJake = tracks.Get("Jake.ogg");
+            trackJavier = tracks.Get("Javier.ogg");
             trackJess = tracks.Get("Jess.ogg");
             trackJugger = tracks.Get("Jugger.ogg");
+            trackKanbei = tracks.Get("Kanbei.ogg");
+            trackKindle = tracks.Get("Kindle.ogg");
             trackKoal = tracks.Get("Koal.ogg");
-            trackSami = tracks.Get("Sami.ogg");
+            trackLash = tracks.Get("Lash.ogg");
+            trackMax = tracks.Get("Max.ogg");
+            trackNell = tracks.Get("Nell.ogg");
+            trackOlaf = tracks.Get("Olaf.ogg");
             trackPower = tracks.Get("Power.ogg");
-            trackSuper = tracks.Get("SuperPower.ogg");
+            trackRachel = tracks.Get("Rachel.ogg");
+            trackSami = tracks.Get("Sami.ogg");
+            trackSasha = tracks.Get("Sasha.ogg");
+            trackSensei = tracks.Get("Sensei.ogg");
+            trackSonja = tracks.Get("Sonja.ogg");
+            trackSuperPower = tracks.Get("SuperPower.ogg");
             trackVictory = tracks.Get("Victory.ogg");
+            trackVonBolt = tracks.Get("VonBolt.ogg");
+            tracks.Volume.Value = 0.6;
             // Loops CO songs
             trackAdder.Looping = true;
+            trackAndy.Looping = true;
+            trackColin.Looping = true;
+            trackDrake.Looping = true;
+            trackEagle.Looping = true;
             trackFlak.Looping = true;
             trackGrimm.Looping = true;
+            trackGrit.Looping = true;
+            trackHachi.Looping = true;
+            trackHawke.Looping = true;
             trackJake.Looping = true;
+            trackJavier.Looping = true;
             trackJess.Looping = true;
             trackJugger.Looping = true;
+            trackKanbei.Looping = true;
+            trackKindle.Looping = true;
             trackKoal.Looping = true;
+            trackLash.Looping = true;
+            trackMax.Looping = true;
+            trackNell.Looping = true;
+            trackOlaf.Looping = true;
+            trackRachel.Looping = true;
             trackSami.Looping = true;
+            trackSasha.Looping = true;
+            trackSensei.Looping = true;
+            trackSonja.Looping = true;
+            trackVonBolt.Looping = true;
         }
 
         private void setToLoading()
@@ -1146,32 +1188,100 @@ namespace AWBWApp.Game.Game.Logic
 
         public UnitData GetUnitDataForUnitName(string unitName) => unitStorage.GetUnitByCode(unitName);
 
+        public void playMusic(String coName) {
+            switch(coName) {
+                case "Adder": if (!trackAdder.IsRunning) stopAllMusic(); trackAdder.Start(); break;
+                case "Andy": if (!trackAndy.IsRunning) stopAllMusic(); trackAndy.Start(); break;
+                case "Colin": if (!trackColin.IsRunning) stopAllMusic(); trackColin.Start(); break;
+                case "Drake": if (!trackDrake.IsRunning) stopAllMusic(); trackDrake.Start(); break;
+                case "Eagle": if (!trackEagle.IsRunning) stopAllMusic(); trackEagle.Start(); break;
+                case "Flak": if (!trackFlak.IsRunning) stopAllMusic(); trackFlak.Start(); break;
+                case "Grimm": if (!trackGrimm.IsRunning) stopAllMusic(); trackGrimm.Start(); break;
+                case "Grit": if (!trackGrit.IsRunning) stopAllMusic(); trackGrit.Start(); break;
+                case "Hachi": if (!trackHachi.IsRunning) stopAllMusic(); trackHachi.Start(); break;
+                case "Hawke": if (!trackHawke.IsRunning) stopAllMusic(); trackHawke.Start(); break;
+                case "Jake": if (!trackJake.IsRunning) stopAllMusic(); trackJake.Start(); break;
+                case "Javier": if (!trackJavier.IsRunning) stopAllMusic(); trackJavier.Start(); break;
+                case "Jess": if (!trackJess.IsRunning) stopAllMusic(); trackJess.Start(); break;
+                case "Jugger": if (!trackJugger.IsRunning) stopAllMusic(); trackJugger.Start(); break;
+                case "Kanbei": if (!trackKanbei.IsRunning) stopAllMusic(); trackKanbei.Start(); break;
+                case "Kindle": if (!trackKindle.IsRunning) stopAllMusic(); trackKindle.Start(); break;
+                case "Koal": if (!trackKoal.IsRunning) stopAllMusic(); trackKoal.Start(); break;
+                case "Lash": if (!trackLash.IsRunning) stopAllMusic(); trackLash.Start(); break;
+                case "Max": if (!trackMax.IsRunning) stopAllMusic(); trackMax.Start(); break;
+                case "Nell": if (!trackNell.IsRunning) stopAllMusic(); trackNell.Start(); break;
+                case "Olaf": if (!trackOlaf.IsRunning) stopAllMusic(); trackOlaf.Start(); break;
+                case "Rachel": if (!trackRachel.IsRunning) stopAllMusic(); trackRachel.Start(); break;
+                case "Sami": if (!trackSami.IsRunning) stopAllMusic(); trackSami.Start(); break;
+                case "Sasha": if (!trackSasha.IsRunning) stopAllMusic(); trackSasha.Start(); break;
+                case "Sensei": if (!trackSensei.IsRunning) stopAllMusic(); trackSensei.Start(); break;
+                case "Sonja": if (!trackSonja.IsRunning) stopAllMusic(); trackSonja.Start(); break;
+                case "VonBolt": if (!trackVonBolt.IsRunning) stopAllMusic(); trackVonBolt.Start(); break;
+                default: if (!trackSami.IsRunning) stopAllMusic(); trackSami.Start(); break;
+            }
+        }
         public void stopAllMusic() {
             trackAdder.Seek(0);
-            trackAdder.Seek(0);
+            trackAndy.Seek(0);
+            trackColin.Seek(0);
+            trackDrake.Seek(0);
+            trackEagle.Seek(0);
             trackFlak.Seek(0);
             trackGrimm.Seek(0);
+            trackGrit.Seek(0);
+            trackHachi.Seek(0);
+            trackHawke.Seek(0);
             trackJake.Seek(0);
+            trackJavier.Seek(0);
             trackJess.Seek(0);
             trackJugger.Seek(0);
+            trackKanbei.Seek(0);
+            trackKindle.Seek(0);
             trackKoal.Seek(0);
-            trackSami.Seek(0);
+            trackLash.Seek(0);
+            trackMax.Seek(0);
+            trackNell.Seek(0);
+            trackOlaf.Seek(0);
             trackPower.Seek(0);
-            trackSuper.Seek(0);
+            trackRachel.Seek(0);
+            trackSami.Seek(0);
+            trackSasha.Seek(0);
+            trackSensei.Seek(0);
+            trackSonja.Seek(0);
+            trackSuperPower.Seek(0);
             trackVictory.Seek(0);
+            trackVonBolt.Seek(0);
 
             trackAdder.Stop();
-            trackAdder.Stop();
+            trackAndy.Stop();
+            trackColin.Stop();
+            trackDrake.Stop();
+            trackEagle.Stop();
             trackFlak.Stop();
             trackGrimm.Stop();
+            trackGrit.Stop();
+            trackHachi.Stop();
+            trackHawke.Stop();
             trackJake.Stop();
+            trackJavier.Stop();
             trackJess.Stop();
             trackJugger.Stop();
+            trackKanbei.Stop();
+            trackKindle.Stop();
             trackKoal.Stop();
-            trackSami.Stop();
+            trackLash.Stop();
+            trackMax.Stop();
+            trackNell.Stop();
+            trackOlaf.Stop();
             trackPower.Stop();
-            trackSuper.Stop();
+            trackRachel.Stop();
+            trackSami.Stop();
+            trackSasha.Stop();
+            trackSensei.Stop();
+            trackSonja.Stop();
+            trackSuperPower.Stop();
             trackVictory.Stop();
+            trackVonBolt.Stop();
         }
 
         public void playAttackSound(string attackerUnit, MovementType defenderType) {

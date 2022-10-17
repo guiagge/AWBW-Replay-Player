@@ -493,7 +493,7 @@ namespace AWBWApp.Game.API.Replay.Actions
             if (IsSuperPower) {
                 controller.Map.stopAllMusic();
                 controller.Map.soundUseSuper.Play();
-                controller.Map.trackSuper.Start();
+                controller.Map.trackSuperPower.Start();
                 controller.Stats.CurrentTurnStatsReadout[controller.ActivePlayer.ID].SuperPowersUsed++;
             }
             else {
