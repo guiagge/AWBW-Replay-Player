@@ -31,7 +31,7 @@ namespace AWBWApp.Game.API.Replay.Actions
             "Nell-Y", "Nell-S",
             "Rachel-Y", "Rachel-S",
             "Sami-Y", "Sami-S",
-            "Colin-Y",
+            "Colin-Y", "Colin-S",
             "Grit-Y", "Grit-S",
             "Olaf-Y", "Olaf-S",
             "Sasha-Y", "Sasha-S",
@@ -195,7 +195,7 @@ namespace AWBWApp.Game.API.Replay.Actions
 
                             var playerID = turnData.ReplayUnit.TryGetValue(unitID, out var savedUnit) ? savedUnit.PlayerID.Value : turnData.ActivePlayerID;
 
-                            if (playerID != player.Key)
+                            if (playerID != player.Key && action.UnitChanges.ContainsKey(unitID))
                                 continue;
 
                             var change = new PowerAction.UnitChange();
@@ -236,7 +236,7 @@ namespace AWBWApp.Game.API.Replay.Actions
                                 }
                             }
 
-                            action.UnitChanges.Add(unitID, change);
+                            action.UnitChanges[unitID] = change;
                         }
                     }
                 }
@@ -542,7 +542,15 @@ namespace AWBWApp.Game.API.Replay.Actions
 
                     var isSturm = CombatOfficerName == "Sturm";
 
-                    var target = controller.Map.PlayEffect(isSturm ? "Effects/Meteor" : "Effects/Target", 1500, coord, i * 250, x =>
+                    var groundPart = controller.Map.PlayEffect("Effects/Select", 1600 + i * 150, coord, i * 100, x =>
+                    {
+                        x.ScaleTo(0.25f).ScaleTo(0.4f, 250, Easing.OutBack)
+                         .RotateTo(45);
+                    });
+
+                    waitForEffects.Add(groundPart);
+
+                    var target = controller.Map.PlayEffect(isSturm ? "Effects/Meteor" : "Effects/Target", 1500, coord, 100 + i * 250, x =>
                     {
                         x.ScaleTo(8 * (isSturm ? 0.5f : 1f)).ScaleTo(1, 1000, Easing.In)
                          .FadeTo(1, 500)
@@ -605,8 +613,11 @@ namespace AWBWApp.Game.API.Replay.Actions
                         if (change.Value.FuelGainPercentage.HasValue)
                             unit.Fuel.Value = Math.Max(0, Math.Min(unit.UnitData.MaxFuel, (int)Math.Ceiling(unit.Fuel.Value * change.Value.FuelGainPercentage.Value)));
 
-                        if (playEffectForUnitChange(controller, unit))
-                            yield return ReplayWait.WaitForMilliseconds(75);
+                        if (MissileCoords == null || MissileCoords.Count <= 0)
+                        {
+                            if (playEffectForUnitChange(controller, unit))
+                                yield return ReplayWait.WaitForMilliseconds(75);
+                        }
                     }
                 }
             }
@@ -644,7 +655,7 @@ namespace AWBWApp.Game.API.Replay.Actions
                         else
                             playEffectForUnitChange(controller, unit);
 
-                        if (!controller.ShouldPlayerActionBeHidden(unit.MapPosition))
+                        if ((MissileCoords == null || MissileCoords.Count <= 0) && !controller.ShouldPlayerActionBeHidden(unit.MapPosition))
                             yield return ReplayWait.WaitForMilliseconds(75);
                     }
                     else
